@@ -1,5 +1,6 @@
 import datetime
 import json
+import pickle
 import re
 import time
 import warnings
@@ -85,11 +86,20 @@ if __name__ == '__main__':
     warnings.filterwarnings("ignore")
     city_list = ['北京', '上海', '天津', '重庆', '哈尔滨', '长春', '沈阳', '呼和浩特', '石家庄', '乌鲁木齐', '兰州', '西宁', '西安', '银川', '郑州', '济南',
                  '太原', '合肥', '武汉', '南京', '成都', '贵阳', '昆明', '南宁', '杭州', '南昌', '广州', '福州']
-    final = []
+
+    try:
+        with open('fetched.tmp', 'rb') as f:
+            fetched = pickle.load(f)
+        with open('final.tmp', 'rb') as f:
+            final = pickle.load(f)
+    except Exception:
+        fetched = []
+        final = []
     for i in city_list:
         for j in city_list:
-            if i != j:
+            if i != j and i + j not in fetched:
                 print("Fetching: " + i + " to " + j)
+                fetched.append(i + j)
                 r = requests.get(generate_query_url(i, j), verify=False, headers=UA)
                 result = r.json()['data']['result']
                 if result:
@@ -99,6 +109,10 @@ if __name__ == '__main__':
                         time.sleep(0.2)
                     final.extend([obj.__dict__ for obj in listo if obj.price != "-1"])
             time.sleep(0.5)
+            with open('fetched.tmp', 'wb') as f:
+                pickle.dump(fetched, f)
+            with open('final.tmp', 'wb') as f:
+                pickle.dump(final, f)
 
     with open('test.json', 'w') as out:
         json.dump(final, out)
