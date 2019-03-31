@@ -26,9 +26,8 @@ class Ticket:
         self.ticket_to_station_number = result_list[17]
         self.seat_types = result_list[35]
         self.price = -1
-        print(self.train_name)
-        # if self.seat_types != '':
-        #   self.get_ticket_price()
+        if self.seat_types != '':
+            self.get_ticket_price()
 
     def get_ticket_price(self):
         fakeQueryUrl = 'https://kyfw.12306.cn/otn/leftTicket/queryTicketPriceFL?train_no='
