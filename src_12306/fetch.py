@@ -28,7 +28,7 @@ class Ticket:
         self.ticket_from_station_number = result_list[16]
         self.ticket_to_station_number = result_list[17]
         self.seat_types = result_list[35]
-        self.price = -1
+        self.price = "-1"
         if self.seat_types != '':
             self.get_ticket_price()
 
