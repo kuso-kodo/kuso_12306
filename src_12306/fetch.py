@@ -8,7 +8,9 @@ import warnings
 import requests
 
 UA = {
-    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+                  + 'AppleWebKit/537.36 (KHTML, like Gecko) '
+                  + 'Chrome/73.0.3683.86 Safari/537.36'}
 
 
 class Ticket:
@@ -31,8 +33,8 @@ class Ticket:
             self.get_ticket_price()
 
     def get_ticket_price(self):
-        fakeQueryUrl = 'https://kyfw.12306.cn/otn/leftTicket/queryTicketPriceFL?train_no='
-        queryUrl = 'https://kyfw.12306.cn/otn/leftTicket/queryTicketPrice?train_no='
+        fake_query_url = 'https://kyfw.12306.cn/otn/leftTicket/queryTicketPriceFL?train_no='
+        query_url = 'https://kyfw.12306.cn/otn/leftTicket/queryTicketPrice?train_no='
         param = self.train_number \
                 + '&from_station_no=' \
                 + self.ticket_from_station_number \
@@ -44,19 +46,22 @@ class Ticket:
                 + self.ticket_date[4:6] + '-' \
                 + self.ticket_date[6:8]
         try:
-            requests.get(fakeQueryUrl + param, verify=False, headers=UA)
+            requests.get(fake_query_url + param, verify=False, headers=UA)
         except Exception:
             pass
-        response = requests.get(queryUrl + param, headers=UA)
+        response = requests.get(query_url + param, headers=UA)
         if response.content:
             data = response.json()['data']
             try:
+                # 二等座
                 self.price = data['O'].strip('¥')
             except Exception:
                 try:
+                    # 硬卧二等
                     self.price = data['A3'].strip('¥')
                 except Exception:
                     try:
+                        # 无座
                         self.price = data['WZ'].strip('¥')
                     except Exception:
                         self.price = "-1"  # error
@@ -74,9 +79,9 @@ queryGetStation = 'https://kyfw.12306.cn/otn/resources/js/framework/station_name
 stations = get_all_stations()
 
 
-def generate_query_url(fromCity, toCity):
-    fromStation = stations[fromCity]
-    toStation = stations[toCity]
+def generate_query_url(from_city, to_city):
+    fromStation = stations[from_city]
+    toStation = stations[to_city]
     date = datetime.datetime.now() + datetime.timedelta(days=10)
     url = 'https://kyfw.12306.cn/otn/leftTicket/query?leftTicketDTO.train_date=' + date.date().isoformat() + '&leftTicketDTO.from_station=' + fromStation + '&leftTicketDTO.to_station=' + toStation + '&purpose_codes=ADULT'
     return url
