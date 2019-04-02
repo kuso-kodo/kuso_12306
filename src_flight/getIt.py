@@ -1173,8 +1173,8 @@ def main():
             with open('final.tmp', 'wb') as f:
                 pickle.dump(final, f)
 
-    with open('ftest.json', 'w') as out:
-        json.dump(final, out)
+    with open('ftest.json', 'w', encoding='utf-8') as out:
+        json.dump(final, out, indent=2, sort_keys=True, ensure_ascii=False)
 
 
 if __name__ == "__main__":
