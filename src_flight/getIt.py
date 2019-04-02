@@ -1071,6 +1071,7 @@ def get_resp(url, data, header):
     while retry_count > 0:
         try:
             html = requests.post(url, data=data, headers=header, proxies={"http": "http://{}".format(proxy)})
+            print('Got it!')
             return html
         except Exception:
             retry_count -= 1
@@ -1164,6 +1165,7 @@ def main():
     for i in city_list:
         for j in city_list:
             if i != j and i + j not in fetched:
+                print('Fetching ' + i + 'to' + j)
                 final.extend(get_list(i, j))
                 fetched.append(i + j)
         with open('fetched.tmp', 'wb') as f:
