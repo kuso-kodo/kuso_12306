@@ -1129,7 +1129,9 @@ def parse(res):
                     'arrival_time': leg['flight']['arrivalDate'],
                     'number': leg['flight']['flightNumber'],
                     'from': leg['flight']['departureAirportInfo']['cityName'],
+                    'fromAirport': leg['flight']['departureAirportInfo']['airportTlc'],
                     'to': leg['flight']['arrivalAirportInfo']['cityName'],
+                    'toAirport': leg['flight']['arrivalAirportInfo']['airportTlc'],
                 })
     return prices
 
@@ -1168,9 +1170,9 @@ def main():
                 print('Fetching ' + i + ' to ' + j)
                 final.extend(get_list(i, j))
                 fetched.append(i + j)
-            with open('fetched.tmp', 'wb') as f:
+            with open('ffetched.tmp', 'wb') as f:
                 pickle.dump(fetched, f)
-            with open('final.tmp', 'wb') as f:
+            with open('ffinal.tmp', 'wb') as f:
                 pickle.dump(final, f)
 
     with open('ftest.json', 'w', encoding='utf-8') as out:
