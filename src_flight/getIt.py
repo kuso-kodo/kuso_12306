@@ -1066,7 +1066,7 @@ def delete_proxy(proxy):
 
 
 def get_resp(url, data, header):
-    retry_count = 5
+    retry_count = 2
     proxy = get_proxy()
     while retry_count > 0:
         try:
@@ -1166,6 +1166,10 @@ def main():
             if i != j and i + j not in fetched:
                 final.extend(get_list(i, j))
                 fetched.append(i + j)
+        with open('fetched.tmp', 'wb') as f:
+            pickle.dump(fetched, f)
+        with open('final.tmp', 'wb') as f:
+            pickle.dump(final, f)
 
     with open('ftest.json', 'w') as out:
         json.dump(final, out)
