@@ -1165,13 +1165,13 @@ def main():
     for i in city_list:
         for j in city_list:
             if i != j and i + j not in fetched:
-                print('Fetching ' + i + 'to' + j)
+                print('Fetching ' + i + ' to ' + j)
                 final.extend(get_list(i, j))
                 fetched.append(i + j)
-        with open('fetched.tmp', 'wb') as f:
-            pickle.dump(fetched, f)
-        with open('final.tmp', 'wb') as f:
-            pickle.dump(final, f)
+            with open('fetched.tmp', 'wb') as f:
+                pickle.dump(fetched, f)
+            with open('final.tmp', 'wb') as f:
+                pickle.dump(final, f)
 
     with open('ftest.json', 'w') as out:
         json.dump(final, out)
