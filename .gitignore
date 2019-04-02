@@ -105,6 +105,7 @@ venv.bak/
 
 # json
 *.json
+*json*
 
 #idea
 .idea/
