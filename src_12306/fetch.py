@@ -82,15 +82,20 @@ stations = get_all_stations()
 def generate_query_url(from_city, to_city):
     fromStation = stations[from_city]
     toStation = stations[to_city]
-    date = datetime.datetime.now() + datetime.timedelta(days=10)
+    date = datetime.datetime.now() + datetime.timedelta(days=7)
     url = 'https://kyfw.12306.cn/otn/leftTicket/query?leftTicketDTO.train_date=' + date.date().isoformat() + '&leftTicketDTO.from_station=' + fromStation + '&leftTicketDTO.to_station=' + toStation + '&purpose_codes=ADULT'
     return url
 
 
 if __name__ == '__main__':
     warnings.filterwarnings("ignore")
-    city_list = ['北京', '上海', '天津', '重庆', '哈尔滨', '长春', '沈阳', '呼和浩特', '石家庄', '乌鲁木齐', '兰州', '西宁', '西安', '银川', '郑州', '济南',
-                 '太原', '合肥', '武汉', '南京', '成都', '贵阳', '昆明', '南宁', '杭州', '南昌', '广州', '福州']
+    city_list = ['北京', '天津', '上海', '重庆', '石家庄',
+                 '太原', '呼和浩特', '郑州', '长沙', '武汉',
+                 '哈尔滨', '长春', '沈阳', '成都', '昆明',
+                 '贵阳', '拉萨', '乌鲁木齐', '西安', '兰州',
+                 '银川', '西宁', '广州', '南宁', '海口',
+                 '南京', '杭州', '福州', '济南', '南昌',
+                 '合肥']
 
     try:
         with open('fetched.tmp', 'rb') as f:
